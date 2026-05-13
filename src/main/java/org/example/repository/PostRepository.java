@@ -42,7 +42,13 @@ public class PostRepository {
         );
     }
 
-
+    public Post findById(long id) {
+        return jdbcTemplate.queryForObject(
+                "SELECT * FROM posts WHERE id = ?",
+                POST_ROW_MAPPER,
+                id
+        );
+    }
 
     public int countAll(String search) {
         return jdbcTemplate.queryForObject(

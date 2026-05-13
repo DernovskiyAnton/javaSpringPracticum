@@ -26,4 +26,8 @@ public class PostService {
                 lastPage
         );
     }
+
+    public Post getPostById(long id) {
+        return postRepository.findById(id);
+    }
 }
