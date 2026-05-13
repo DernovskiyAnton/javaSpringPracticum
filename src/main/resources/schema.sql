@@ -13,3 +13,9 @@ CREATE TABLE IF NOT EXISTS comments (
     post_id BIGINT NOT NULL,
     FOREIGN KEY (post_id) REFERENCES posts(id)
 );
+
+INSERT INTO posts (title, text, tags, likes_count, comments_count)
+VALUES ('Первый пост', 'Текст первого поста', 'tag_1,tag_2', 5, 1);
+
+INSERT INTO posts (title, text, tags, likes_count, comments_count)
+VALUES ('Второй пост', 'Текст второго поста', 'tag_3', 3, 0);
