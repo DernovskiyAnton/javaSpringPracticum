@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.dto.PostDto;
 import org.example.dto.PostPage;
 import org.example.model.Post;
 import org.example.service.PostService;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Validated
 @RestController
@@ -30,7 +29,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public Post findById(@PathVariable("id") long id) {
+    public PostDto findById(@PathVariable("id") long id) {
         return postService.getPostById(id);
     }
 }

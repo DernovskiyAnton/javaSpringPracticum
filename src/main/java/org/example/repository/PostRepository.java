@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.example.dto.PostDto;
 import org.example.model.Post;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
