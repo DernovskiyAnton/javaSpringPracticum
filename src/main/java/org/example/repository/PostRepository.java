@@ -5,8 +5,12 @@ import org.example.dto.PostDto;
 import org.example.model.Post;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -58,5 +62,25 @@ public class PostRepository {
                 "%" + search + "%",
                 "%" + search + "%"
         );
+    }
+
+    public Post save(Post post) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO posts (title, text, tags, likes_count, comments_count) VALUES (?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            ps.setString(1, post.title());
+            ps.setString(2, post.text());
+            ps.setString(3, String.join(",", post.tags()));
+            ps.setInt(4, 0);
+            ps.setInt(5, 0);
+            return ps;
+        }, keyHolder);
+
+        long id = keyHolder.getKey().longValue();
+        return findById(id);
     }
 }

@@ -3,6 +3,7 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostDto;
 import org.example.dto.PostPage;
+import org.example.dto.PostRequest;
 import org.example.mapper.PostMapper;
 import org.example.model.Post;
 import org.example.repository.PostRepository;
@@ -31,5 +32,17 @@ public class PostService {
 
     public PostDto getPostById(long id) {
         return postMapper.toDto(postRepository.findById(id));
+    }
+
+    public PostDto createPost(PostRequest request) {
+        Post post = new Post(
+                0L,
+                request.title(),
+                request.text(),
+                request.tags(),
+                0,
+                0
+        );
+        return postMapper.toDto(postRepository.save(post));
     }
 }

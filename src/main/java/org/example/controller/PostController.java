@@ -3,13 +3,17 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostDto;
 import org.example.dto.PostPage;
-import org.example.model.Post;
+import org.example.dto.PostRequest;
 import org.example.service.PostService;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Validated
@@ -31,5 +35,11 @@ public class PostController {
     @GetMapping("/{id}")
     public PostDto findById(@PathVariable("id") long id) {
         return postService.getPostById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public PostDto create(@RequestBody PostRequest request) {
+    return postService.createPost(request);
     }
 }
