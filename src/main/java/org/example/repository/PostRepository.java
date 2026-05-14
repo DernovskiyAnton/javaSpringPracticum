@@ -109,4 +109,10 @@ public class PostRepository {
                 id
         );
     }
+
+    public void updateImage(long id, byte[] image) {
+        jdbcTemplate.update(
+                "UPDATE posts SET image = ? WHERE id = ?", image, id
+        );
+    }
 }

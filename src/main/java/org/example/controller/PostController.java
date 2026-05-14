@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Validated
 @RestController
@@ -63,6 +64,16 @@ public class PostController {
     public int addLike(@PathVariable("id") long id) {
         return postService.addLike(id);
     }
+
+    @PutMapping("/{id}/image")
+    public ResponseEntity<Void> updateImage(
+            @PathVariable("id") long id,
+            @RequestParam("image") MultipartFile image) {
+        postService.updateImage(id, image);
+        return ResponseEntity.ok().build();
+    }
+
+
 
 
 

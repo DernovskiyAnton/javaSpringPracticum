@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -60,5 +62,13 @@ public class PostService {
 
     public int addLike(long id) {
         return postRepository.addLike(id);
+    }
+
+    public void updateImage(long id, MultipartFile image) {
+        try {
+            postRepository.updateImage(id, image.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("Не удалось прочитать файл изображения", e);
+        }
     }
 }
