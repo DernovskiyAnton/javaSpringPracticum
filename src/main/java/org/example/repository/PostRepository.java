@@ -94,4 +94,8 @@ public class PostRepository {
                 id
         );
     }
+
+    public void deleteById(long id) {
+        jdbcTemplate.update("DELETE FROM posts WHERE id = ?", id);
+    }
 }

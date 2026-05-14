@@ -8,7 +8,9 @@ import org.example.dto.PostPage;
 import org.example.dto.PostRequest;
 import org.example.service.PostService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,13 +45,20 @@ public class PostController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PostDto create(@RequestBody PostRequest request) {
-    return postService.createPost(request);
+        return postService.createPost(request);
     }
 
-@PutMapping("/{id}")
+    @PutMapping("/{id}")
     public PostDto update(@PathVariable long id, @RequestBody PostRequest request) {
         return postService.update(id, request);
-}
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
+        postService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 }

@@ -7,7 +7,10 @@ import org.example.dto.PostRequest;
 import org.example.mapper.PostMapper;
 import org.example.model.Post;
 import org.example.repository.PostRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -49,5 +52,9 @@ public class PostService {
     public PostDto update(long id, PostRequest request) {
         postRepository.update(id, request);
         return postMapper.toDto(postRepository.findById(id));
+    }
+
+    public void delete(long id) {
+        postRepository.deleteById(id);
     }
 }
