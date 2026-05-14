@@ -7,10 +7,7 @@ import org.example.dto.PostRequest;
 import org.example.mapper.PostMapper;
 import org.example.model.Post;
 import org.example.repository.PostRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
