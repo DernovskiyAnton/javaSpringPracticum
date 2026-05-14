@@ -71,4 +71,8 @@ public class PostService {
             throw new RuntimeException("Не удалось прочитать файл изображения", e);
         }
     }
+
+    public byte[] getImage(long id) {
+        return postRepository.findImageById(id);
+    }
 }

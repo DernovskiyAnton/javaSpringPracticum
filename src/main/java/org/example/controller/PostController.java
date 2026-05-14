@@ -8,6 +8,7 @@ import org.example.dto.PostPage;
 import org.example.dto.PostRequest;
 import org.example.service.PostService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,8 +74,11 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-
-
-
-
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") long id) {
+        byte[] image = postService.getImage(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(image);
+    }
 }

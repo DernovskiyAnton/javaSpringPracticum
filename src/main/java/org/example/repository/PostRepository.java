@@ -115,4 +115,12 @@ public class PostRepository {
                 "UPDATE posts SET image = ? WHERE id = ?", image, id
         );
     }
+
+    public byte[] findImageById(long id) {
+        return jdbcTemplate.queryForObject(
+                "SELECT image FROM posts WHERE id = ?",
+                byte[].class,
+                id
+        );
+    }
 }
