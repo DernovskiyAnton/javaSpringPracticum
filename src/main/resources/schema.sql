@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS posts (
     text           TEXT         NOT NULL,
     tags           VARCHAR(255),
     likes_count    INT DEFAULT 0,
-    comments_count INT DEFAULT 0
+    comments_count INT DEFAULT 0,
+    image          BLOB
 );
 
 CREATE TABLE IF NOT EXISTS comments (
