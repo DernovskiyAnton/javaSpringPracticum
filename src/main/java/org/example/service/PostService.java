@@ -45,4 +45,9 @@ public class PostService {
         );
         return postMapper.toDto(postRepository.save(post));
     }
+
+    public PostDto update(long id, PostRequest request) {
+        postRepository.update(id, request);
+        return postMapper.toDto(postRepository.findById(id));
+    }
 }

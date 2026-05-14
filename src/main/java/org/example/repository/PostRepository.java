@@ -2,6 +2,7 @@ package org.example.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostDto;
+import org.example.dto.PostRequest;
 import org.example.model.Post;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -82,5 +83,15 @@ public class PostRepository {
 
         long id = keyHolder.getKey().longValue();
         return findById(id);
+    }
+
+    public void update(long id, PostRequest request) {
+        jdbcTemplate.update(
+                "UPDATE posts SET title = ?, text = ?, tags = ? WHERE id = ?",
+                request.title(),
+                request.text(),
+                String.join(",", request.tags()),
+                id
+        );
     }
 }
