@@ -59,6 +59,11 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{id}/likes")
+    public int addLike(@PathVariable("id") long id) {
+        return postService.addLike(id);
+    }
+
 
 
 }

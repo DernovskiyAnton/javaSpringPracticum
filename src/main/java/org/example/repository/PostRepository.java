@@ -98,4 +98,15 @@ public class PostRepository {
     public void deleteById(long id) {
         jdbcTemplate.update("DELETE FROM posts WHERE id = ?", id);
     }
+
+    public int addLike(long id) {
+        jdbcTemplate.update(
+                "UPDATE posts SET likes_count = likes_count + 1 WHERE id = ?", id
+        );
+        return jdbcTemplate.queryForObject(
+                "SELECT likes_count FROM posts WHERE id = ?",
+                Integer.class,
+                id
+        );
+    }
 }

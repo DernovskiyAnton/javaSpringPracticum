@@ -57,4 +57,8 @@ public class PostService {
     public void delete(long id) {
         postRepository.deleteById(id);
     }
+
+    public int addLike(long id) {
+        return postRepository.addLike(id);
+    }
 }
