@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS comments (
     id      BIGINT AUTO_INCREMENT PRIMARY KEY,
     text    TEXT   NOT NULL,
     post_id BIGINT NOT NULL,
-    FOREIGN KEY (post_id) REFERENCES posts(id)
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
 );
 
 INSERT INTO posts (title, text, tags, likes_count, comments_count)
