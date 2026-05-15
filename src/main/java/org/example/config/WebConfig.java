@@ -15,7 +15,6 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("org.example")
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
