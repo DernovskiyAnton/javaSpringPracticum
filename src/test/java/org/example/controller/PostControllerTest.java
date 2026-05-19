@@ -1,8 +1,6 @@
 package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.config.AppConfig;
-import org.example.config.WebConfig;
 import org.example.dto.PostDto;
 import org.example.dto.PostPage;
 import org.example.dto.PostRequest;
@@ -13,7 +11,6 @@ import org.example.service.PostService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -34,7 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringJUnitConfig
 @ContextConfiguration(classes = {PostControllerTest.TestConfig.class})
-class PostControllerTest {
+class
+PostControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
