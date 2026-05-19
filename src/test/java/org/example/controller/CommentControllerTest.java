@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {CommentControllerTest.TestConfig.class})
 class CommentControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired

@@ -31,10 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringJUnitConfig
 @ContextConfiguration(classes = {PostControllerTest.TestConfig.class})
-class
-PostControllerTest {
+class PostControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
