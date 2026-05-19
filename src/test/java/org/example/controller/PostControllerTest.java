@@ -82,7 +82,9 @@ class PostControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(postController)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .setValidator(validator)
-                .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(mapper))
+                .setMessageConverters(
+                        new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(mapper),
+                        new org.springframework.http.converter.ByteArrayHttpMessageConverter())
                 .build();
         reset(postService);
         testPostDto = new PostDto(1L, "Test Title", "Test Text", List.of("tag1", "tag2"), 10, 5);

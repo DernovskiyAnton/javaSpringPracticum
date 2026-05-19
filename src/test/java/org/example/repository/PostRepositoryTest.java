@@ -13,7 +13,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @RequiredArgsConstructor
@@ -25,6 +24,7 @@ public class PostRepositoryTest {
 
     Post post = new Post(
             0L,
+
             "Spring Boot",
             "Post text",
             List.of("java", "spring"),
