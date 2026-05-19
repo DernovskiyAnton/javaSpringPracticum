@@ -20,7 +20,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
@@ -37,6 +36,9 @@ class PostControllerTest {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private PostController postController;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -68,8 +70,10 @@ class PostControllerTest {
     }
 
     @BeforeEach
-    void setUp(WebApplicationContext context) {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(postController)
+                .setControllerAdvice(new GlobalExceptionHandler())
+                .build();
         reset(postService);
         testPostDto = new PostDto(1L, "Test Title", "Test Text", List.of("tag1", "tag2"), 10, 5);
         testPostRequest = new PostRequest("Test Title", "Test Text", List.of("tag1", "tag2"));

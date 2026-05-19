@@ -17,7 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
@@ -34,6 +33,9 @@ class CommentControllerTest {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private CommentController commentController;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -65,8 +67,10 @@ class CommentControllerTest {
     }
 
     @BeforeEach
-    void setUp(WebApplicationContext context) {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(commentController)
+                .setControllerAdvice(new GlobalExceptionHandler())
+                .build();
         reset(commentService);
         testCommentDto = new CommentDto(1L, "Test comment text", 10L);
         testCommentRequest = new CommentRequest("Test comment text", 10L);
