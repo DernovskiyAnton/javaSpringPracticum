@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostDto;
 import org.example.dto.PostPage;
@@ -31,9 +32,9 @@ public class PostController {
 
     @GetMapping
     public PostPage findAll(
-            @RequestParam("search") String search,
-            @RequestParam("pageNumber") int pageNumber,
-            @RequestParam("pageSize") int pageSize) {
+            @RequestParam(value = "search", defaultValue = "") String search,
+            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         return postService.getAllPosts(search, pageNumber, pageSize);
     }
 
@@ -44,12 +45,12 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PostDto create(@RequestBody PostRequest request) {
+    public PostDto create(@Valid @RequestBody PostRequest request) {
         return postService.createPost(request);
     }
 
     @PutMapping("/{id}")
-    public PostDto update(@PathVariable long id, @RequestBody PostRequest request) {
+    public PostDto update(@PathVariable long id, @Valid @RequestBody PostRequest request) {
         return postService.update(id, request);
     }
 

@@ -1,11 +1,13 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.CommentDto;
 import org.example.dto.CommentRequest;
 import org.example.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/posts/{postId}/comments")
@@ -37,13 +40,13 @@ public class CommentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto create(@RequestBody CommentRequest request) {
+    public CommentDto create(@Valid @RequestBody CommentRequest request) {
         return commentService.create(request);
     }
 
     @PutMapping("/{id}")
     public CommentDto update(@PathVariable("id") long id,
-                             @RequestBody CommentRequest request) {
+                             @Valid @RequestBody CommentRequest request) {
         return commentService.update(id, request);
     }
 
