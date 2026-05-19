@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.example.dto.CommentDto;
 import org.example.dto.CommentRequest;
 import org.example.exception.GlobalExceptionHandler;
@@ -17,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.util.List;
 
@@ -62,14 +64,22 @@ class CommentControllerTest {
 
         @Bean
         public ObjectMapper objectMapper() {
-            return new ObjectMapper();
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            return mapper;
         }
     }
 
     @BeforeEach
     void setUp() {
+        ObjectMapper mapper = objectMapper;
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.afterPropertiesSet();
+
         mockMvc = MockMvcBuilders.standaloneSetup(commentController)
                 .setControllerAdvice(new GlobalExceptionHandler())
+                .setValidator(validator)
+                .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(mapper))
                 .build();
         reset(commentService);
         testCommentDto = new CommentDto(1L, "Test comment text", 10L);

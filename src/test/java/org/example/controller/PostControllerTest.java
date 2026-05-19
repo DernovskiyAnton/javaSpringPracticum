@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.example.dto.PostDto;
 import org.example.dto.PostPage;
 import org.example.dto.PostRequest;
@@ -20,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.util.List;
 
@@ -65,14 +67,22 @@ class PostControllerTest {
 
         @Bean
         public ObjectMapper objectMapper() {
-            return new ObjectMapper();
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            return mapper;
         }
     }
 
     @BeforeEach
     void setUp() {
+        ObjectMapper mapper = objectMapper;
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.afterPropertiesSet();
+
         mockMvc = MockMvcBuilders.standaloneSetup(postController)
                 .setControllerAdvice(new GlobalExceptionHandler())
+                .setValidator(validator)
+                .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(mapper))
                 .build();
         reset(postService);
         testPostDto = new PostDto(1L, "Test Title", "Test Text", List.of("tag1", "tag2"), 10, 5);

@@ -1,5 +1,7 @@
 package org.example.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +20,11 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
         MappingJackson2HttpMessageConverter converter =
-                new MappingJackson2HttpMessageConverter();
+                new MappingJackson2HttpMessageConverter(objectMapper);
         converter.setDefaultCharset(StandardCharsets.UTF_8);
         converters.add(converter);
     }
