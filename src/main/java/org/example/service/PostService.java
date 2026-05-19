@@ -9,6 +9,7 @@ import org.example.mapper.PostMapper;
 import org.example.model.Post;
 import org.example.repository.PostRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostService {
 
     private final PostRepository postRepository;
@@ -37,6 +39,7 @@ public class PostService {
         return postMapper.toDto(postRepository.findById(id));
     }
 
+    @Transactional
     public PostDto createPost(PostRequest request) {
         Post post = new Post(
                 0L,
@@ -49,19 +52,23 @@ public class PostService {
         return postMapper.toDto(postRepository.save(post));
     }
 
+    @Transactional
     public PostDto update(long id, PostRequest request) {
         postRepository.update(id, request);
         return postMapper.toDto(postRepository.findById(id));
     }
 
+    @Transactional
     public void delete(long id) {
         postRepository.deleteById(id);
     }
 
+    @Transactional
     public int addLike(long id) {
         return postRepository.addLike(id);
     }
 
+    @Transactional
     public void updateImage(long id, MultipartFile image) {
         try {
             postRepository.updateImage(id, image.getBytes());
