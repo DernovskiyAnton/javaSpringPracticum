@@ -3,6 +3,7 @@ package org.example.repository;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostDto;
 import org.example.dto.PostRequest;
+import org.example.exception.ResourceNotFoundException;
 import org.example.model.Post;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -86,23 +87,32 @@ public class PostRepository {
     }
 
     public void update(long id, PostRequest request) {
-        jdbcTemplate.update(
+        int updated = jdbcTemplate.update(
                 "UPDATE posts SET title = ?, text = ?, tags = ? WHERE id = ?",
                 request.title(),
                 request.text(),
                 String.join(",", request.tags()),
                 id
         );
+        if (updated == 0) {
+            throw new ResourceNotFoundException("Post", id);
+        }
     }
 
     public void deleteById(long id) {
-        jdbcTemplate.update("DELETE FROM posts WHERE id = ?", id);
+        int deleted = jdbcTemplate.update("DELETE FROM posts WHERE id = ?", id);
+        if (deleted == 0) {
+            throw new ResourceNotFoundException("Post", id);
+        }
     }
 
     public int addLike(long id) {
-        jdbcTemplate.update(
+        int updated = jdbcTemplate.update(
                 "UPDATE posts SET likes_count = likes_count + 1 WHERE id = ?", id
         );
+        if (updated == 0) {
+            throw new ResourceNotFoundException("Post", id);
+        }
         return jdbcTemplate.queryForObject(
                 "SELECT likes_count FROM posts WHERE id = ?",
                 Integer.class,
@@ -111,9 +121,12 @@ public class PostRepository {
     }
 
     public void updateImage(long id, byte[] image) {
-        jdbcTemplate.update(
+        int updated = jdbcTemplate.update(
                 "UPDATE posts SET image = ? WHERE id = ?", image, id
         );
+        if (updated == 0) {
+            throw new ResourceNotFoundException("Post", id);
+        }
     }
 
     public byte[] findImageById(long id) {

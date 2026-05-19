@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.dto.PostDto;
 import org.example.dto.PostPage;
 import org.example.dto.PostRequest;
+import org.example.exception.ImageProcessingException;
 import org.example.mapper.PostMapper;
 import org.example.model.Post;
 import org.example.repository.PostRepository;
@@ -65,7 +66,7 @@ public class PostService {
         try {
             postRepository.updateImage(id, image.getBytes());
         } catch (IOException e) {
-            throw new RuntimeException("Не удалось прочитать файл изображения", e);
+            throw new ImageProcessingException("Failed to read image file", e);
         }
     }
 

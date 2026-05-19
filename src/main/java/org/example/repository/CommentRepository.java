@@ -2,13 +2,13 @@ package org.example.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.CommentRequest;
+import org.example.exception.ResourceNotFoundException;
 import org.example.model.Comment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -60,17 +60,23 @@ public class CommentRepository {
     }
 
     public Comment update(long id, CommentRequest request) {
-        jdbcTemplate.update(
+        int updated = jdbcTemplate.update(
                 "UPDATE comments SET text = ? WHERE id = ?",
                 request.text(),
                 id
         );
+        if (updated == 0) {
+            throw new ResourceNotFoundException("Comment", id);
+        }
         return findById(id);
     }
 
     public void deleteById(long id) {
-        jdbcTemplate.update(
+        int deleted = jdbcTemplate.update(
                 "DELETE FROM comments WHERE id = ?", id
         );
+        if (deleted == 0) {
+            throw new ResourceNotFoundException("Comment", id);
+        }
     }
 }
